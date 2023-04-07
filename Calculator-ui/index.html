@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<style>
+table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+
+}
+th,td {
+  padding: 5px;
+}
+
+
+
+</style>
+<h1><b>Calculator</b></h1>
+<br>
+<body>
+<textarea id="in"></textarea>
+<tr><p id="demo"></p></tr>
+<br><br>
+<head><b>INPUTS</b></head>
+<br><br>
+<td>
+    <tr><button type="button" onclick="square()">Square</button></tr>
+</td>
+<br><br>
+<tr>
+<button type="button" onclick="cube()">Cube</button>
+</tr>
+<br><br>
+<tr>
+<button type="button" onclick="fibonacci()">Fibonacci</button>
+</tr>
+<br><br>
+<tr>
+<button type="button" onclick="metrices()">Metric</button>
+</tr>
+<br><br>
+<br><br>
+<head><b>RESULT</b></head>
+<br><br>
+<div class="center">   
+    <table  border="1" class="center">
+         <tr >
+           <td>square</td>
+           <td id="td1">0</td>
+          </tr>
+          <tr >
+           <td>cube</td>
+           <td id="td2">0</td>
+          </tr>
+          <tr >
+            <td>fibonacci</td>
+            <td id="td3">0</td>
+           </tr>
+     </table> 
+ </div>
+<br><br>
+<br><br>
+
+<table id="demo"></table>
+
+<script>
+function cube() {
+var xhr = new XMLHttpRequest();
+var x = document.getElementById('in').value;
+var data = JSON.stringify([{"num1": parseFloat(x)}]);
+var url = "http://localhost:5050/cube";
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+xhr.send(data);
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(JSON.parse(xhr.responseText));
+        document.getElementById("demo").innerHTML = json["num1"][0];
+        //console.log(json["num1"][0]);
+        //console.log(typeof(json));
+        //console.log(typeof(xhr.responseText));
+    }
+};
+
+}
+
+function square() {
+var xhr = new XMLHttpRequest();
+var x = document.getElementById('in').value;
+var data = JSON.stringify([{"num1": parseFloat(x)}]);
+var url = "http://localhost:9090/square";
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+xhr.send(data);
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(JSON.parse(xhr.responseText));
+        document.getElementById("demo").innerHTML = json["num1"][0];
+        //console.log(sqjson);
+    }
+};
+}
+
+function fibonacci() {
+var xhr = new XMLHttpRequest();
+var x = document.getElementById('in').value;
+var data = JSON.stringify([{"num1": parseFloat(x)}]);
+var url = "http://localhost:4040/fibonacci";
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+xhr.send(data);
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        document.getElementById("demo").innerHTML = json.slice(1, -1);
+        console.log(json.slice(1, -1));
+        console.log(typeof(json));
+    }
+};
+}
+
+function metrices() {
+var xhr = new XMLHttpRequest();
+var x = document.getElementById('in').value;
+var data = JSON.stringify([{"num1": parseFloat(x)}]);
+var url = "http://localhost:2020/metrices";
+xhr.open("GET", url, true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+xhr.send(data);
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText);
+        document.getElementById('td1').innerHTML=Number((json["square"]).toFixed(8));
+        document.getElementById('td2').innerHTML=Number((json["Cube"]).toFixed(8));
+        document.getElementById('td3').innerHTML=Number((json["Fibonacci"]).toFixed(8));
+    }
+};
+
+}
+
+</script>
+
+</body>
+</html>
